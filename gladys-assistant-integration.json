@@ -1,0 +1,628 @@
+{
+  "manifest_version": 1,
+  "type": "device",
+  "name": "AC Infinity",
+  "description": {
+    "en": "Control AC Infinity UIS controllers: fans, lights and ports, temperature, humidity, VPD.",
+    "fr": "Pilotez les contrôleurs AC Infinity UIS : ventilateurs, lampes, ports, température, VPD.",
+    "de": "Steuere AC-Infinity-UIS-Controller: Lüfter, Lampen, Ports, Temperatur, Feuchte, VPD.",
+    "es": "Controle los controladores AC Infinity UIS: ventiladores, luces, puertos, temperatura, VPD."
+  },
+  "version": "1.0.0",
+  "docker_image": "ghcr.io/prohand/gladys-acinfinity:1.0.0",
+  "gladys_version": ">=5.3.0",
+  "cover_image": "https://raw.githubusercontent.com/prohand/gladys-acinfinity/main/cover.png",
+  "categories": ["climate", "environment"],
+  "countries": [
+    "US",
+    "CA",
+    "MX",
+    "GB",
+    "IE",
+    "FR",
+    "BE",
+    "LU",
+    "NL",
+    "DE",
+    "AT",
+    "CH",
+    "ES",
+    "PT",
+    "IT",
+    "SE",
+    "PL",
+    "AU",
+    "NZ",
+    "JP"
+  ],
+  "keywords": [
+    "ac infinity",
+    "uis",
+    "cloudline",
+    "grow tent",
+    "growbox",
+    "inline fan",
+    "vpd",
+    "hydroponics",
+    "culture indoor",
+    "ventilateur"
+  ],
+  "transports": ["cloud"],
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "Getting started",
+        "fr": "Pour commencer",
+        "de": "Erste Schritte",
+        "es": "Primeros pasos"
+      },
+      "description": {
+        "en": "AC Infinity UIS controllers (69 Pro, 69 Pro+, AI+, Outlet AI...) are reached through the AC Infinity cloud, with the e-mail and password of your AC Infinity app account. The controller must be on Wi-Fi (not Bluetooth only). Enter them below, save, then press \"Test the connection\": your controllers, ports and sensors appear in the Discovery tab.",
+        "fr": "Les contrôleurs AC Infinity UIS (69 Pro, 69 Pro+, AI+, Outlet AI…) se pilotent par le cloud AC Infinity, avec l'e-mail et le mot de passe de votre compte de l'application AC Infinity. Le contrôleur doit être en Wi-Fi (pas seulement en Bluetooth). Saisissez-les ci-dessous, enregistrez, puis cliquez sur « Tester la connexion » : vos contrôleurs, ports et capteurs apparaissent dans l'onglet Découverte.",
+        "de": "AC-Infinity-UIS-Controller (69 Pro, 69 Pro+, AI+, Outlet AI…) werden über die AC-Infinity-Cloud gesteuert, mit der E-Mail und dem Passwort deines Kontos der AC-Infinity-App. Der Controller muss im WLAN sein (nicht nur Bluetooth). Gib sie unten ein, speichere und klicke auf „Verbindung testen“: Deine Controller, Ports und Sensoren erscheinen im Tab „Erkennung“.",
+        "es": "Los controladores AC Infinity UIS (69 Pro, 69 Pro+, AI+, Outlet AI…) se controlan mediante la nube de AC Infinity, con el correo y la contraseña de su cuenta de la app AC Infinity. El controlador debe estar en Wi-Fi (no solo Bluetooth). Introdúzcalos abajo, guarde y pulse «Probar la conexión»: sus controladores, puertos y sensores aparecen en la pestaña Descubrimiento."
+      },
+      "links": [
+        {
+          "url": "https://acinfinity.com",
+          "label": {
+            "en": "AC Infinity website",
+            "fr": "Site d'AC Infinity",
+            "de": "AC-Infinity-Website",
+            "es": "Sitio web de AC Infinity"
+          }
+        },
+        {
+          "url": "https://github.com/prohand/gladys-acinfinity/blob/main/docs/en.md",
+          "label": {
+            "en": "Integration documentation",
+            "fr": "Documentation de l'intégration",
+            "de": "Dokumentation der Integration",
+            "es": "Documentación de la integración"
+          }
+        }
+      ]
+    },
+    {
+      "key": "email",
+      "type": "string",
+      "label": {
+        "en": "E-mail",
+        "fr": "E-mail",
+        "de": "E-Mail",
+        "es": "Correo electrónico"
+      },
+      "description": {
+        "en": "E-mail of your AC Infinity app account.",
+        "fr": "E-mail de votre compte de l'application AC Infinity.",
+        "de": "E-Mail deines Kontos der AC-Infinity-App.",
+        "es": "Correo de su cuenta de la app AC Infinity."
+      },
+      "placeholder": {
+        "en": "you@example.com",
+        "fr": "vous@exemple.fr",
+        "de": "du@beispiel.de",
+        "es": "usted@ejemplo.es"
+      },
+      "required": true
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "label": {
+        "en": "Password",
+        "fr": "Mot de passe",
+        "de": "Passwort",
+        "es": "Contraseña"
+      },
+      "description": {
+        "en": "Password of your AC Infinity app account. Stored as a secret, never logged.",
+        "fr": "Mot de passe de votre compte AC Infinity. Stocké comme secret, jamais journalisé.",
+        "de": "Passwort deines AC-Infinity-Kontos. Als Geheimnis gespeichert, nie protokolliert.",
+        "es": "Contraseña de su cuenta AC Infinity. Guardada como secreto, nunca registrada."
+      },
+      "required": true
+    },
+    {
+      "key": "poll_frequency",
+      "type": "number",
+      "label": {
+        "en": "Refresh interval (s)",
+        "fr": "Intervalle de rafraîchissement (s)",
+        "de": "Aktualisierungsintervall (s)",
+        "es": "Intervalo de actualización (s)"
+      },
+      "description": {
+        "en": "How often the AC Infinity account is read, in seconds (30 seconds minimum).",
+        "fr": "Fréquence de lecture du compte AC Infinity, en secondes (30 secondes minimum).",
+        "de": "Wie oft das AC-Infinity-Konto gelesen wird, in Sekunden (mindestens 30 Sekunden).",
+        "es": "Frecuencia de lectura de la cuenta AC Infinity, en segundos (30 segundos como mínimo)."
+      },
+      "required": false,
+      "default": 60,
+      "min": 30,
+      "max": 3600
+    }
+  ],
+  "actions": [
+    {
+      "key": "test_connection",
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
+      "timeout_seconds": 60
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "port_power_changed",
+      "label": {
+        "en": "AC Infinity port turned on or off",
+        "fr": "Port AC Infinity allumé ou éteint",
+        "de": "AC-Infinity-Port ein- oder ausgeschaltet",
+        "es": "Puerto AC Infinity encendido o apagado"
+      },
+      "description": {
+        "en": "A port started or stopped powering its device (Auto mode, schedule, timer, app or Gladys).",
+        "fr": "Un port a commencé ou cessé d'alimenter son appareil (mode Auto, programme, minuterie, appli ou Gladys).",
+        "de": "Ein Port hat begonnen oder aufgehört, sein Gerät zu versorgen (Auto-Modus, Zeitplan, Timer, App oder Gladys).",
+        "es": "Un puerto empezó o dejó de alimentar su aparato (modo Auto, horario, temporizador, app o Gladys)."
+      },
+      "fields": [
+        {
+          "key": "device",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Port",
+            "fr": "Port",
+            "de": "Port",
+            "es": "Puerto"
+          }
+        },
+        {
+          "key": "state",
+          "type": "multi_select",
+          "label": {
+            "en": "New state",
+            "fr": "Nouvel état",
+            "de": "Neuer Zustand",
+            "es": "Nuevo estado"
+          },
+          "options": [
+            {
+              "value": "on",
+              "label": {
+                "en": "On",
+                "fr": "Allumé",
+                "de": "An",
+                "es": "Encendido"
+              }
+            },
+            {
+              "value": "off",
+              "label": {
+                "en": "Off",
+                "fr": "Éteint",
+                "de": "Aus",
+                "es": "Apagado"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "device_name",
+          "type": "string",
+          "label": {
+            "en": "Port name",
+            "fr": "Nom du port",
+            "de": "Name des Ports",
+            "es": "Nombre del puerto"
+          }
+        },
+        {
+          "key": "speed",
+          "type": "number",
+          "label": {
+            "en": "Level (0–10)",
+            "fr": "Niveau (0–10)",
+            "de": "Stufe (0–10)",
+            "es": "Nivel (0–10)"
+          }
+        }
+      ]
+    },
+    {
+      "key": "controller_connectivity_changed",
+      "label": {
+        "en": "AC Infinity controller online or offline",
+        "fr": "Contrôleur AC Infinity en ligne ou hors ligne",
+        "de": "AC-Infinity-Controller online oder offline",
+        "es": "Controlador AC Infinity en línea o sin conexión"
+      },
+      "description": {
+        "en": "A controller stopped reporting to the AC Infinity cloud (power cut, Wi-Fi) or came back.",
+        "fr": "Un contrôleur a cessé de répondre au cloud AC Infinity (coupure de courant, Wi-Fi) ou est revenu.",
+        "de": "Ein Controller meldet sich nicht mehr bei der AC-Infinity-Cloud (Stromausfall, WLAN) oder ist zurück.",
+        "es": "Un controlador dejó de responder a la nube de AC Infinity (corte de luz, Wi-Fi) o ha vuelto."
+      },
+      "fields": [
+        {
+          "key": "device",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Controller",
+            "fr": "Contrôleur",
+            "de": "Controller",
+            "es": "Controlador"
+          }
+        },
+        {
+          "key": "status",
+          "type": "multi_select",
+          "label": {
+            "en": "Status",
+            "fr": "État",
+            "de": "Status",
+            "es": "Estado"
+          },
+          "options": [
+            {
+              "value": "offline",
+              "label": {
+                "en": "Offline",
+                "fr": "Hors ligne",
+                "de": "Offline",
+                "es": "Sin conexión"
+              }
+            },
+            {
+              "value": "online",
+              "label": {
+                "en": "Back online",
+                "fr": "De retour en ligne",
+                "de": "Wieder online",
+                "es": "De nuevo en línea"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "device_name",
+          "type": "string",
+          "label": {
+            "en": "Controller name",
+            "fr": "Nom du contrôleur",
+            "de": "Name des Controllers",
+            "es": "Nombre del controlador"
+          }
+        }
+      ]
+    },
+    {
+      "key": "water_detected_changed",
+      "label": {
+        "en": "AC Infinity water sensor",
+        "fr": "Capteur d'eau AC Infinity",
+        "de": "AC-Infinity-Wassersensor",
+        "es": "Sensor de agua AC Infinity"
+      },
+      "description": {
+        "en": "The water sensor of an AI controller detected water, or is dry again.",
+        "fr": "Le capteur d'eau d'un contrôleur AI a détecté de l'eau, ou est de nouveau sec.",
+        "de": "Der Wassersensor eines AI-Controllers hat Wasser erkannt oder ist wieder trocken.",
+        "es": "El sensor de agua de un controlador AI detectó agua, o vuelve a estar seco."
+      },
+      "fields": [
+        {
+          "key": "device",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Water sensor",
+            "fr": "Capteur d'eau",
+            "de": "Wassersensor",
+            "es": "Sensor de agua"
+          }
+        },
+        {
+          "key": "status",
+          "type": "multi_select",
+          "label": {
+            "en": "Status",
+            "fr": "État",
+            "de": "Status",
+            "es": "Estado"
+          },
+          "options": [
+            {
+              "value": "detected",
+              "label": {
+                "en": "Water detected",
+                "fr": "Eau détectée",
+                "de": "Wasser erkannt",
+                "es": "Agua detectada"
+              }
+            },
+            {
+              "value": "cleared",
+              "label": {
+                "en": "Dry again",
+                "fr": "De nouveau sec",
+                "de": "Wieder trocken",
+                "es": "Seco de nuevo"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "device_name",
+          "type": "string",
+          "label": {
+            "en": "Sensor name",
+            "fr": "Nom du capteur",
+            "de": "Name des Sensors",
+            "es": "Nombre del sensor"
+          }
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "set_port_mode",
+      "label": {
+        "en": "Set an AC Infinity port mode",
+        "fr": "Changer le mode d'un port AC Infinity",
+        "de": "Modus eines AC-Infinity-Ports setzen",
+        "es": "Cambiar el modo de un puerto AC Infinity"
+      },
+      "description": {
+        "en": "Off, On, Auto, Cycle, Schedule, VPD... The settings of each mode stay those of the AC Infinity app.",
+        "fr": "Off, On, Auto, Cycle, Programme, VPD… Les réglages de chaque mode restent ceux de l'appli AC Infinity.",
+        "de": "Off, On, Auto, Zyklus, Zeitplan, VPD… Die Einstellungen jedes Modus bleiben die der AC-Infinity-App.",
+        "es": "Off, On, Auto, Ciclo, Horario, VPD… Los ajustes de cada modo siguen siendo los de la app AC Infinity."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "device",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Port",
+            "fr": "Port",
+            "de": "Port",
+            "es": "Puerto"
+          },
+          "required": true
+        },
+        {
+          "key": "mode",
+          "type": "select",
+          "label": {
+            "en": "Mode",
+            "fr": "Mode",
+            "de": "Modus",
+            "es": "Modo"
+          },
+          "required": true,
+          "default": "auto",
+          "options": [
+            {
+              "value": "off",
+              "label": {
+                "en": "Off",
+                "fr": "Off (éteint)",
+                "de": "Off (aus)",
+                "es": "Off (apagado)"
+              }
+            },
+            {
+              "value": "on",
+              "label": {
+                "en": "On",
+                "fr": "On (allumé)",
+                "de": "On (an)",
+                "es": "On (encendido)"
+              }
+            },
+            {
+              "value": "auto",
+              "label": {
+                "en": "Auto",
+                "fr": "Auto",
+                "de": "Auto",
+                "es": "Auto"
+              }
+            },
+            {
+              "value": "timer_to_on",
+              "label": {
+                "en": "Timer to On",
+                "fr": "Minuterie vers On",
+                "de": "Timer bis On",
+                "es": "Temporizador a On"
+              }
+            },
+            {
+              "value": "timer_to_off",
+              "label": {
+                "en": "Timer to Off",
+                "fr": "Minuterie vers Off",
+                "de": "Timer bis Off",
+                "es": "Temporizador a Off"
+              }
+            },
+            {
+              "value": "cycle",
+              "label": {
+                "en": "Cycle",
+                "fr": "Cycle",
+                "de": "Zyklus",
+                "es": "Ciclo"
+              }
+            },
+            {
+              "value": "schedule",
+              "label": {
+                "en": "Schedule",
+                "fr": "Programme",
+                "de": "Zeitplan",
+                "es": "Horario"
+              }
+            },
+            {
+              "value": "vpd",
+              "label": {
+                "en": "VPD",
+                "fr": "VPD",
+                "de": "VPD",
+                "es": "VPD"
+              }
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "key": "mode",
+          "type": "string",
+          "label": {
+            "en": "Mode",
+            "fr": "Mode",
+            "de": "Modus",
+            "es": "Modo"
+          }
+        },
+        {
+          "key": "speed",
+          "type": "number",
+          "label": {
+            "en": "Level (0–10)",
+            "fr": "Niveau (0–10)",
+            "de": "Stufe (0–10)",
+            "es": "Nivel (0–10)"
+          }
+        }
+      ]
+    },
+    {
+      "key": "set_port_speed",
+      "label": {
+        "en": "Set an AC Infinity port level",
+        "fr": "Régler le niveau d'un port AC Infinity",
+        "de": "Stufe eines AC-Infinity-Ports setzen",
+        "es": "Ajustar el nivel de un puerto AC Infinity"
+      },
+      "description": {
+        "en": "Runs the port in On mode at a level from 1 to 10; 0 switches it to Off.",
+        "fr": "Passe le port en mode On au niveau voulu, de 1 à 10 ; 0 le passe en Off.",
+        "de": "Schaltet den Port in den Modus On mit Stufe 1 bis 10; 0 schaltet ihn auf Off.",
+        "es": "Pone el puerto en modo On al nivel elegido, de 1 a 10; 0 lo pone en Off."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "device",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Port",
+            "fr": "Port",
+            "de": "Port",
+            "es": "Puerto"
+          },
+          "required": true
+        },
+        {
+          "key": "speed",
+          "type": "number",
+          "label": {
+            "en": "Level (0–10)",
+            "fr": "Niveau (0–10)",
+            "de": "Stufe (0–10)",
+            "es": "Nivel (0–10)"
+          },
+          "required": true,
+          "default": 5,
+          "min": 0,
+          "max": 10
+        }
+      ],
+      "outputs": [
+        {
+          "key": "mode",
+          "type": "string",
+          "label": {
+            "en": "Mode",
+            "fr": "Mode",
+            "de": "Modus",
+            "es": "Modo"
+          }
+        },
+        {
+          "key": "speed",
+          "type": "number",
+          "label": {
+            "en": "Level (0–10)",
+            "fr": "Niveau (0–10)",
+            "de": "Stufe (0–10)",
+            "es": "Nivel (0–10)"
+          }
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "key": "acinfinity_overview",
+      "label": {
+        "en": "AC Infinity overview",
+        "fr": "Vue d’ensemble AC Infinity",
+        "de": "AC-Infinity-Übersicht",
+        "es": "Resumen de AC Infinity"
+      },
+      "description": {
+        "en": "Temperature, humidity, VPD and the ports of a controller, with a quick port control.",
+        "fr": "Température, humidité, VPD et ports d'un contrôleur, avec un pilotage rapide des ports.",
+        "de": "Temperatur, Feuchtigkeit, VPD und die Ports eines Controllers, mit schneller Portsteuerung.",
+        "es": "Temperatura, humedad, VPD y puertos de un controlador, con control rápido de puertos."
+      },
+      "icon": "wind",
+      "action_timeout_seconds": 30,
+      "settings": [
+        {
+          "key": "controller",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Controller",
+            "fr": "Contrôleur",
+            "de": "Controller",
+            "es": "Controlador"
+          },
+          "description": {
+            "en": "The controller to show. Empty: every controller of the account.",
+            "fr": "Le contrôleur à afficher. Vide : tous les contrôleurs du compte.",
+            "de": "Der anzuzeigende Controller. Leer: alle Controller des Kontos.",
+            "es": "El controlador que mostrar. Vacío: todos los controladores de la cuenta."
+          },
+          "required": false
+        }
+      ]
+    }
+  ]
+}
