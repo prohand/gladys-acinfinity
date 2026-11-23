@@ -1,6 +1,6 @@
 {
   "name": "gladys-acinfinity",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Gladys Assistant external integration for AC Infinity UIS controllers (cloud API).",
   "type": "module",
